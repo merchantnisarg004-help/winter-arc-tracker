@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Nisarg Winter Arc 2026 Tracker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+:root {
+  box-sizing: border-box;
+  --bg: #f4f6f9;
+  --card: #ffffff;
+  --tx: #0f172a;
+  --mu: #64748b;
+  --ac: #2563eb;
+  --ac-bg: #eff6ff;
+  --bd: #e2e8f0;
+  --ok: #16a34a;
+  --ok-bg: #dcfce7;
+  --wa: #d97706;
+  --wa-bg: #fef3c7;
+  --bad: #dc2626;
+  --radius: 14px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #090d12;
+    --card: #131b24;
+    --tx: #f1f5f9;
+    --mu: #94a3b8;
+    --ac: #3b82f6;
+    --ac-bg: #1e293b;
+    --bd: #212d3d;
+    --ok: #22c55e;
+    --ok-bg: #143521;
+    --wa: #f59e0b;
+    --wa-bg: #382408;
+    --bad: #ef4444;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #090d12;
+  --card: #131b24;
+  --tx: #f1f5f9;
+  --mu: #94a3b8;
+  --ac: #3b82f6;
+  --ac-bg: #1e293b;
+  --bd: #212d3d;
+  --ok: #22c55e;
+  --ok-bg: #143521;
+  --wa: #f59e0b;
+  --wa-bg: #382408;
+  --bad: #ef4444;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--tx);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  padding-bottom: calc(75px + var(--safe-bottom));
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Header & Status Bar */
+header {
+  padding: calc(12px + var(--safe-top)) 16px 12px;
+  background: var(--card);
+  border-bottom: 1px solid var(--bd);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+h1 { font-size: 18px; font-weight: 700; margin: 0; letter-spacing: -0.3px; }
+#sync { font-size: 12px; color: var(--mu); margin-top: 2px; display: block; }
+
+/* Mobile Bottom Navigation Bar */
+nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--card);
+  border-top: 1px solid var(--bd);
+  display: flex;
+  overflow-x: auto;
+  padding: 6px 8px calc(6px + var(--safe-bottom));
+  z-index: 100;
+  scrollbar-width: none;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
+}
+nav::-webkit-scrollbar { display: none; }
+nav button {
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 0;
+  background: transparent;
+  color: var(--mu);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+nav button.on {
+  background: var(--ac-bg);
+  color: var(--ac);
+}
+
+/* Main Content Wrapper */
+main {
+  padding: 12px 12px 24px;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* Touch Cards & Layout */
+.card {
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.stat { text-align: center; padding: 12px 8px; }
+.stat b { display: block; font-size: 22px; font-weight: 700; color: var(--ac); }
+.stat span { color: var(--mu); font-size: 12px; font-weight: 500; }
+h2 { font-size: 15px; font-weight: 700; margin: 18px 0 8px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--mu); }
+
+/* Progress Bar */
+.bar { height: 10px; background: var(--bd); border-radius: 99px; overflow: hidden; margin: 8px 0; }
+.bar i { display: block; height: 100%; background: var(--ok); border-radius: 99px; transition: width 0.3s ease; }
+
+/* Tags & Badges */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+.A { background: var(--ac-bg); color: var(--ac); }
+.B { background: #f3e8ff; color: #7e22ce; }
+.C { background: var(--wa-bg); color: var(--wa); }
+.R { background: var(--ok-bg); color: var(--ok); }
+
+@media (prefers-color-scheme: dark) {
+  .B { background: #3b0764; color: #d8b4fe; }
+}
+
+/* Form Inputs Optimized for Touch (Prevents iOS Zoom) */
+input, select, textarea {
+  font-size: 16px !important; /* Prevents auto-zoom on iOS */
+  font-family: inherit;
+  color: var(--tx);
+  background: var(--bg);
+  border: 1px solid var(--bd);
+  border-radius: 8px;
+  padding: 10px 12px;
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+}
+input[type=number] { max-width: 90px; text-align: center; }
+select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2064748b'><path d='M4 6l4 4 4-4'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+}
+textarea { resize: vertical; min-height: 60px; }
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+.row label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mu);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Accordion Summary */
+details summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-weight: 600;
+}
+details summary::-webkit-details-marker { display: none; }
+details[open] summary { border-bottom: 1px solid var(--bd); padding-bottom: 10px; margin-bottom: 10px; }
+
+/* Responsive Mobile Tables */
+.tw {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 -14px;
+  padding: 0 14px;
+}
+table { border-collapse: collapse; width: 100%; min-width: 500px; font-size: 13px; }
+td, th { border-bottom: 1px solid var(--bd); padding: 10px 8px; text-align: left; vertical-align: middle; }
+th { color: var(--mu); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* Large Checkboxes for Easy Tapping */
+.chk {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--bd);
+  cursor: pointer;
+}
+.chk:last-child { border-bottom: none; }
+.chk input[type=checkbox] {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border-radius: 6px;
+  border: 2px solid var(--bd);
+  accent-color: var(--ac);
+  cursor: pointer;
+}
+
+/* Warnings & Highlights */
+.warn { border-left: 4px solid var(--wa); background: var(--card); }
+.cur { border: 2px solid var(--ac); }
+.mu { color: var(--mu); font-size: 12px; }
+a { color: var(--ac); text-decoration: none; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 id="t">Nisarg Tracker</h1>
+  <span id="sync">Loading…</span>
+</header>
+
+<main id="m"></main>
+
+<nav id="nav"></nav>
+
+<script>
+const D={"dash":[["PROGRAM","12-Week Winter Arc | Oct 2 – Dec 31, 2026"],["WEEKLY FORMAT","A = Strength A | B = Strength B | C = Cardio/Shuttle | R = Recovery"],["DAILY MORNING","5-minute Core + Posture Correction — every day"],["MAIN TRAINING","4 main sessions/week + light recovery/corrective days"],["PRIMARY TARGET","Beep Test Level 8+ + functional strength + movement quality + consistency"],["Beep Test","Aim for Level 8+ by final assessment"],["Cardio","30–40 min easy aerobic capacity without excessive fatigue"],["Strength","Consistent progression in squat/RDL/row/push-up/carry"],["Core","45–60 sec controlled plank; strong anti-extension control"],["Posture","Consistent corrective routine; reassess pelvic/shoulder mechanics"],["Consistency","≥85% of planned sessions completed"],["Planned days","=COUNTA('Daily Plan'!A2:A92)"],["Completed days","=COUNTIF('Daily Plan'!H2:H92,\"Yes\")"],["Completion %","=IF(B19=0,0,B20/B19)"],["Average RPE","=IFERROR(AVERAGEIF('Daily Plan'!I2:I92,\">0\"),0)"],["Average pain score","=IFERROR(AVERAGEIF('Daily Plan'!J2:J92,\">=0\"),0)"],["Source basis","June 16, 2026 Physical Fitness Assessment Report. The report identifies corrective work, aerobic development, push/pull balance, single-leg work, grip, and agility as key areas."]],"wt":[["Week 1","Oct 2–8","Foundation","A / B / C / R","Consistency + technique","25 min easy + 4 x 20 m controlled shuttle","Learn technique; 2 sets on most movements","4 main sessions; easy cardio; daily corrective routine"],["Week 2","Oct 9–15","Foundation","A / B / C / R","Build routine","25–30 min easy + 6 x 20 m shuttle","Add 1–2 reps where comfortable","4 main sessions; 25–30 min easy cardio; 6 x 20 m controlled shuttle"],["Week 3","Oct 16–22","Foundation","A / B / C / R","Small volume increase","25–30 min easy + 6–8 x 20 m shuttle","Main lifts 3 sets if technique is solid","4 main sessions; 25–30 min cardio; 6–8 x 20 m shuttle"],["Week 4","Oct 23–29","Checkpoint","A / B / C / R","Establish baseline","Controlled Beep Test checkpoint","Maintain; lighter around checkpoint","4 sessions; controlled Beep Test checkpoint; do not chase exhaustion"],["Week 5","Oct 30–Nov 5","Build","A / B / C / R","Aerobic development","6 x 1-min intervals; 30 min easy cardio","Small load/reps increase","4 sessions; 6 x 1-min intervals; 30 min easy cardio"],["Week 6","Nov 6–12","Build","A / B / C / R","Progress gradually","7 x 1-min intervals; 30–35 min easy cardio","Small progression; one variable only","4 sessions; 7 x 1-min intervals; 30–35 min easy cardio"],["Week 7","Nov 13–19","Build","A / B / C / R","Running efficiency","5 x 90-sec intervals + controlled turns","Maintain strength; improve control","4 sessions; 5 x 90-sec intervals; controlled shuttle turns"],["Week 8","Nov 20–26","Checkpoint","A / B / C / R","Re-test + consolidate","Beep Test checkpoint; reduce surrounding volume","Light strength around test","4 sessions; Beep Test checkpoint; lighter strength around test"],["Week 9","Nov 27–Dec 3","Police Specific","A / B / C / R","Functional conditioning","6–8 shuttle rounds + change of direction","Functional strength + carries","4 sessions; shuttle work; functional circuit; 30 min easy cardio"],["Week 10","Dec 4–10","Police Specific","A / B / C / R","Strength + agility","Shuttle + controlled lateral movement","Strength + agility, moderate volume","4 sessions; progressive shuttle/lateral work; controlled strength"],["Week 11","Dec 11–17","Police Specific","A / B / C / R","Practice week","Full Beep Test practice + 3-round circuit","Moderate strength; avoid failure","4 sessions; full Beep Test practice; 3-round functional circuit"],["Week 12","Dec 18–24","Peak / Taper","A / B / C / R","Reduce fatigue, retain speed","40–50% volume reduction; retain light speed","Deload 40–50%","3–4 lighter sessions; final practice/assessment if ready"],["Week 13","Dec 25–31","Deload / Review","A / B / C / R","Recover + review results","Easy cardio + final review; no hard test if fatigued","Easy movement only","2–3 easy sessions; final measurements; no hard testing if fatigued"]],"mo":[[1,"Hip Flexor Stretch","30 sec/side","Hip mobility / pelvic control","Gently tuck pelvis; no forcing","Every morning"],[2,"Glute Bridge","10 reps","Glute activation","Ribs down; squeeze glutes","Every morning"],[3,"Dead Bug","6/side","Core anti-extension","Move slowly; keep trunk controlled","Every morning"],[4,"Wall Slide","8 reps","Shoulder/scapular control","Slow range; do not force into pinching","Every morning"],[5,"Pallof Hold","20 sec/side","Anti-rotation core stability","Stay tall; resist rotation","Every morning"]],"dp":[["2026-10-02",1,"Friday","Foundation","C","Shuttle / Intervals"],["2026-10-03",1,"Saturday","Foundation","R","Rest + Corrective"],["2026-10-04",1,"Sunday","Foundation","R","Recovery / Optional Mobility"],["2026-10-05",1,"Monday","Foundation","A","Strength A"],["2026-10-06",1,"Tuesday","Foundation","R","Easy Cardio + Mobility"],["2026-10-07",1,"Wednesday","Foundation","R","Rest + Corrective"],["2026-10-08",1,"Thursday","Foundation","B","Strength B + Corrective"],["2026-10-09",2,"Friday","Foundation","C","Shuttle / Intervals"],["2026-10-10",2,"Saturday","Foundation","R","Rest + Corrective"],["2026-10-11",2,"Sunday","Foundation","R","Recovery / Optional Mobility"],["2026-10-12",2,"Monday","Foundation","A","Strength A"],["2026-10-13",2,"Tuesday","Foundation","R","Easy Cardio + Mobility"],["2026-10-14",2,"Wednesday","Foundation","R","Rest + Corrective"],["2026-10-15",2,"Thursday","Foundation","B","Strength B + Corrective"],["2026-10-16",3,"Friday","Foundation","C","Shuttle / Intervals"],["2026-10-17",3,"Saturday","Foundation","R","Rest + Corrective"],["2026-10-18",3,"Sunday","Foundation","R","Recovery / Optional Mobility"],["2026-10-19",3,"Monday","Foundation","A","Strength A"],["2026-10-20",3,"Tuesday","Foundation","R","Easy Cardio + Mobility"],["2026-10-21",3,"Wednesday","Foundation","R","Rest + Corrective"],["2026-10-22",3,"Thursday","Foundation","B","Strength B + Corrective"],["2026-10-23",4,"Friday","Checkpoint","C","Shuttle / Intervals"],["2026-10-24",4,"Saturday","Checkpoint","R","Rest + Corrective"],["2026-10-25",4,"Sunday","Checkpoint","R","Recovery / Optional Mobility"],["2026-10-26",4,"Monday","Checkpoint","A","Strength A"],["2026-10-27",4,"Tuesday","Checkpoint","R","Easy Cardio + Mobility"],["2026-10-28",4,"Wednesday","Checkpoint","R","Rest + Corrective"],["2026-10-29",4,"Thursday","Checkpoint","B","Strength B + Corrective"],["2026-10-30",5,"Friday","Build","C","Shuttle / Intervals"],["2026-10-31",5,"Saturday","Build","R","Rest + Corrective"],["2026-11-01",5,"Sunday","Build","R","Recovery / Optional Mobility"],["2026-11-02",5,"Monday","Build","A","Strength A"],["2026-11-03",5,"Tuesday","Build","R","Easy Cardio + Mobility"],["2026-11-04",5,"Wednesday","Build","R","Rest + Corrective"],["2026-11-05",5,"Thursday","Build","B","Strength B + Corrective"],["2026-11-06",6,"Friday","Build","C","Shuttle / Intervals"],["2026-11-07",6,"Saturday","Build","R","Rest + Corrective"],["2026-11-08",6,"Sunday","Build","R","Recovery / Optional Mobility"],["2026-11-09",6,"Monday","Build","A","Strength A"],["2026-11-10",6,"Tuesday","Build","R","Easy Cardio + Mobility"],["2026-11-11",6,"Wednesday","Build","R","Rest + Corrective"],["2026-11-12",6,"Thursday","Build","B","Strength B + Corrective"],["2026-11-13",7,"Friday","Build","C","Shuttle / Intervals"],["2026-11-14",7,"Saturday","Build","R","Rest + Corrective"],["2026-11-15",7,"Sunday","Build","R","Recovery / Optional Mobility"],["2026-11-16",7,"Monday","Build","A","Strength A"],["2026-11-17",7,"Tuesday","Build","R","Easy Cardio + Mobility"],["2026-11-18",7,"Wednesday","Build","R","Rest + Corrective"],["2026-11-19",7,"Thursday","Build","B","Strength B + Corrective"],["2026-11-20",8,"Friday","Checkpoint","C","Shuttle / Intervals"],["2026-11-21",8,"Saturday","Checkpoint","R","Rest + Corrective"],["2026-11-22",8,"Sunday","Checkpoint","R","Recovery / Optional Mobility"],["2026-11-23",8,"Monday","Checkpoint","A","Strength A"],["2026-11-24",8,"Tuesday","Checkpoint","R","Easy Cardio + Mobility"],["2026-11-25",8,"Wednesday","Checkpoint","R","Rest + Corrective"],["2026-11-26",8,"Thursday","Checkpoint","B","Strength B + Corrective"],["2026-11-27",9,"Friday","Police Specific","C","Shuttle / Intervals"],["2026-11-28",9,"Saturday","Police Specific","R","Rest + Corrective"],["2026-11-29",9,"Sunday","Police Specific","R","Recovery / Optional Mobility"],["2026-11-30",9,"Monday","Police Specific","A","Strength A"],["2026-12-01",9,"Tuesday","Police Specific","R","Easy Cardio + Mobility"],["2026-12-02",9,"Wednesday","Police Specific","R","Rest + Corrective"],["2026-12-03",9,"Thursday","Police Specific","B","Strength B + Corrective"],["2026-12-04",10,"Friday","Police Specific","C","Shuttle / Intervals"],["2026-12-05",10,"Saturday","Police Specific","R","Rest + Corrective"],["2026-12-06",10,"Sunday","Police Specific","R","Recovery / Optional Mobility"],["2026-12-07",10,"Monday","Police Specific","A","Strength A"],["2026-12-08",10,"Tuesday","Police Specific","R","Easy Cardio + Mobility"],["2026-12-09",10,"Wednesday","Police Specific","R","Rest + Corrective"],["2026-12-10",10,"Thursday","Police Specific","B","Strength B + Corrective"],["2026-12-11",11,"Friday","Police Specific","C","Shuttle / Intervals"],["2026-12-12",11,"Saturday","Police Specific","R","Rest + Corrective"],["2026-12-13",11,"Sunday","Police Specific","R","Recovery / Optional Mobility"],["2026-12-14",11,"Monday","Police Specific","A","Strength A"],["2026-12-15",11,"Tuesday","Police Specific","R","Easy Cardio + Mobility"],["2026-12-16",11,"Wednesday","Police Specific","R","Rest + Corrective"],["2026-12-17",11,"Thursday","Police Specific","B","Strength B + Corrective"],["2026-12-18",12,"Friday","Peak / Taper","C","Shuttle / Intervals"],["2026-12-19",12,"Saturday","Peak / Taper","R","Rest + Corrective"],["2026-12-20",12,"Sunday","Peak / Taper","R","Recovery / Optional Mobility"],["2026-12-21",12,"Monday","Peak / Taper","A","Strength A"],["2026-12-22",12,"Tuesday","Peak / Taper","R","Easy Cardio + Mobility"],["2026-12-23",12,"Wednesday","Peak / Taper","R","Rest + Corrective"],["2026-12-24",12,"Thursday","Peak / Taper","B","Strength B + Corrective"],["2026-12-25",13,"Friday","Deload / Review","C","Shuttle / Intervals"],["2026-12-26",13,"Saturday","Deload / Review","R","Rest + Corrective"],["2026-12-27",13,"Sunday","Deload / Review","R","Recovery / Optional Mobility"],["2026-12-28",13,"Monday","Deload / Review","A","Strength A"],["2026-12-29",13,"Tuesday","Deload / Review","R","Easy Cardio + Mobility"],["2026-12-30",13,"Wednesday","Deload / Review","R","Rest + Corrective"],["2026-12-31",13,"Thursday","Deload / Review","B","Strength B + Corrective"]],"lg":[["2026-10-02","Shuttle / Intervals","C","Warm-up walk/jog","5–8 min"],["2026-10-02","Shuttle / Intervals","C","Shuttle / Intervals","25 min easy + 4 x 20 m controlled shuttle"],["2026-10-02","Shuttle / Intervals","C","Cool-down","5 min"],["2026-10-03","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-10-03","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-10-03","Rest + Corrective","R","Clamshell","12/side"],["2026-10-03","Rest + Corrective","R","Dead Bug","8/side"],["2026-10-03","Rest + Corrective","R","Wall Slide","10 reps"],["2026-10-03","Rest + Corrective","R","Band External Rotation","12/side"],["2026-10-03","Rest + Corrective","R","Pallof Press","10/side"],["2026-10-04","Recovery / Optional Mobility","R","Easy Walk / Mobility","10–20 min"],["2026-10-04","Recovery / Optional Mobility","R","Hip Flexor Stretch","45 sec/side"],["2026-10-04","Recovery / Optional Mobility","R","Wall Slide","10 reps"],["2026-10-05","Strength A","A","Glute Bridge","3 x 12"],["2026-10-05","Strength A","A","Goblet Squat","2–3 x 8"],["2026-10-05","Strength A","A","Romanian Deadlift","2–3 x 8"],["2026-10-05","Strength A","A","Step-Up","2–3 x 8/leg"],["2026-10-05","Strength A","A","Dead Bug","2–3 x 8/side"],["2026-10-05","Strength A","A","Pallof Press","2–3 x 10/side"],["2026-10-06","Easy Cardio + Mobility","C","Easy Cardio","25 min easy + 4 x 20 m controlled shuttle"],["2026-10-06","Easy Cardio + Mobility","C","Hip Flexor Stretch","45–60 sec/side"],["2026-10-06","Easy Cardio + Mobility","C","Wall Slide","10 reps"],["2026-10-06","Easy Cardio + Mobility","C","Dead Bug","8/side"],["2026-10-07","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-10-07","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-10-07","Rest + Corrective","R","Clamshell","12/side"],["2026-10-07","Rest + Corrective","R","Dead Bug","8/side"],["2026-10-07","Rest + Corrective","R","Wall Slide","10 reps"],["2026-10-07","Rest + Corrective","R","Band External Rotation","12/side"],["2026-10-07","Rest + Corrective","R","Pallof Press","10/side"],["2026-10-08","Strength B + Corrective","B","Seated/Cable Row","3 x 10"],["2026-10-08","Strength B + Corrective","B","Lat Pulldown","2–3 x 10"],["2026-10-08","Strength B + Corrective","B","Push-Up","2–3 x 8–12"],["2026-10-08","Strength B + Corrective","B","Face Pull","2 x 12"],["2026-10-08","Strength B + Corrective","B","Band External Rotation","2 x 12/side"],["2026-10-08","Strength B + Corrective","B","Farmer Carry","3 x 20–30 m"],["2026-10-08","Strength B + Corrective","B","Plank","2–3 x 20–40 sec"],["2026-10-08","Strength B + Corrective","B","Hip Flexor Stretch","45–60 sec/side"],["2026-10-08","Strength B + Corrective","B","Wall Slide","10 reps"],["2026-10-09","Shuttle / Intervals","C","Warm-up walk/jog","5–8 min"],["2026-10-09","Shuttle / Intervals","C","Shuttle / Intervals","25–30 min easy + 6 x 20 m shuttle"],["2026-10-09","Shuttle / Intervals","C","Cool-down","5 min"],["2026-10-10","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-10-10","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-10-10","Rest + Corrective","R","Clamshell","12/side"],["2026-10-10","Rest + Corrective","R","Dead Bug","8/side"],["2026-10-10","Rest + Corrective","R","Wall Slide","10 reps"],["2026-10-10","Rest + Corrective","R","Band External Rotation","12/side"],["2026-10-10","Rest + Corrective","R","Pallof Press","10/side"],["2026-10-11","Recovery / Optional Mobility","R","Easy Walk / Mobility","10–20 min"],["2026-10-11","Recovery / Optional Mobility","R","Hip Flexor Stretch","45 sec/side"],["2026-10-11","Recovery / Optional Mobility","R","Wall Slide","10 reps"],["2026-10-12","Strength A","A","Glute Bridge","3 x 12"],["2026-10-12","Strength A","A","Goblet Squat","2–3 x 8"],["2026-10-12","Strength A","A","Romanian Deadlift","2–3 x 8"],["2026-10-12","Strength A","A","Step-Up","2–3 x 8/leg"],["2026-10-12","Strength A","A","Dead Bug","2–3 x 8/side"],["2026-10-12","Strength A","A","Pallof Press","2–3 x 10/side"],["2026-10-13","Easy Cardio + Mobility","C","Easy Cardio","25–30 min easy + 6 x 20 m shuttle"],["2026-10-13","Easy Cardio + Mobility","C","Hip Flexor Stretch","45–60 sec/side"],["2026-10-13","Easy Cardio + Mobility","C","Wall Slide","10 reps"],["2026-10-13","Easy Cardio + Mobility","C","Dead Bug","8/side"],["2026-10-14","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-10-14","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-10-14","Rest + Corrective","R","Clamshell","12/side"],["2026-10-14","Rest + Corrective","R","Dead Bug","8/side"],["2026-10-14","Rest + Corrective","R","Wall Slide","10 reps"],["2026-10-14","Rest + Corrective","R","Band External Rotation","12/side"],["2026-10-14","Rest + Corrective","R","Pallof Press","10/side"],["2026-10-15","Strength B + Corrective","B","Seated/Cable Row","3 x 10"],["2026-10-15","Strength B + Corrective","B","Lat Pulldown","2–3 x 10"],["2026-10-15","Strength B + Corrective","B","Push-Up","2–3 x 8–12"],["2026-10-15","Strength B + Corrective","B","Face Pull","2 x 12"],["2026-10-15","Strength B + Corrective","B","Band External Rotation","2 x 12/side"],["2026-10-15","Strength B + Corrective","B","Farmer Carry","3 x 20–30 m"],["2026-10-15","Strength B + Corrective","B","Plank","2–3 x 20–40 sec"],["2026-10-15","Strength B + Corrective","B","Hip Flexor Stretch","45–60 sec/side"],["2026-10-15","Strength B + Corrective","B","Wall Slide","10 reps"],["2026-10-16","Shuttle / Intervals","C","Warm-up walk/jog","5–8 min"],["2026-10-16","Shuttle / Intervals","C","Shuttle / Intervals","25–30 min easy + 6–8 x 20 m shuttle"],["2026-10-16","Shuttle / Intervals","C","Cool-down","5 min"],["2026-10-17","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-10-17","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-10-17","Rest + Corrective","R","Clamshell","12/side"],["2026-10-17","Rest + Corrective","R","Dead Bug","8/side"],["2026-10-17","Rest + Corrective","R","Wall Slide","10 reps"],["2026-10-17","Rest + Corrective","R","Band External Rotation","12/side"],["2026-10-17","Rest + Corrective","R","Pallof Press","10/side"],["2026-10-18","Recovery / Optional Mobility","R","Easy Walk / Mobility","10–20 min"],["2026-10-18","Recovery / Optional Mobility","R","Hip Flexor Stretch","45 sec/side"],["2026-10-18","Recovery / Optional Mobility","R","Wall Slide","10 reps"],["2026-10-19","Strength A","A","Glute Bridge","3 x 12"],["2026-10-19","Strength A","A","Goblet Squat","2–3 x 8"],["2026-10-19","Strength A","A","Romanian Deadlift","2–3 x 8"],["2026-10-19","Strength A","A","Step-Up","2–3 x 8/leg"],["2026-10-19","Strength A","A","Dead Bug","2–3 x 8/side"],["2026-10-19","Strength A","A","Pallof Press","2–3 x 10/side"],["2026-10-20","Easy Cardio + Mobility","C","Easy Cardio","25–30 min easy + 6–8 x 20 m shuttle"],["2026-10-20","Easy Cardio + Mobility","C","Hip Flexor Stretch","45–60 sec/side"],["2026-10-20","Easy Cardio + Mobility","C","Wall Slide","10 reps"],["2026-10-20","Easy Cardio + Mobility","C","Dead Bug","8/side"],["2026-10-21","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-10-21","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-10-21","Rest + Corrective","R","Clamshell","12/side"],["2026-10-21","Rest + Corrective","R","Dead Bug","8/side"],["2026-10-21","Rest + Corrective","R","Wall Slide","10 reps"],["2026-10-21","Rest + Corrective","R","Band External Rotation","12/side"],["2026-10-21","Rest + Corrective","R","Pallof Press","10/side"],["2026-10-22","Strength B + Corrective","B","Seated/Cable Row","3 x 10"],["2026-10-22","Strength B + Corrective","B","Lat Pulldown","2–3 x 10"],["2026-10-22","Strength B + Corrective","B","Push-Up","2–3 x 8–12"],["2026-10-22","Strength B + Corrective","B","Face Pull","2 x 12"],["2026-10-22","Strength B + Corrective","B","Band External Rotation","2 x 12/side"],["2026-10-22","Strength B + Corrective","B","Farmer Carry","3 x 20–30 m"],["2026-10-22","Strength B + Corrective","B","Plank","2–3 x 20–40 sec"],["2026-10-22","Strength B + Corrective","B","Hip Flexor Stretch","45–60 sec/side"],["2026-10-22","Strength B + Corrective","B","Wall Slide","10 reps"],["2026-10-23","Shuttle / Intervals","C","Warm-up walk/jog","5–8 min"],["2026-10-23","Shuttle / Intervals","C","Shuttle / Intervals","Controlled Beep Test checkpoint"],["2026-10-23","Shuttle / Intervals","C","Cool-down","5 min"],["2026-10-24","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-10-24","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-10-24","Rest + Corrective","R","Clamshell","12/side"],["2026-10-24","Rest + Corrective","R","Dead Bug","8/side"],["2026-10-24","Rest + Corrective","R","Wall Slide","10 reps"],["2026-10-24","Rest + Corrective","R","Band External Rotation","12/side"],["2026-10-24","Rest + Corrective","R","Pallof Press","10/side"],["2026-10-25","Recovery / Optional Mobility","R","Easy Walk / Mobility","10–20 min"],["2026-10-25","Recovery / Optional Mobility","R","Hip Flexor Stretch","45 sec/side"],["2026-10-25","Recovery / Optional Mobility","R","Wall Slide","10 reps"],["2026-10-26","Strength A","A","Glute Bridge","3 x 12"],["2026-10-26","Strength A","A","Goblet Squat","2–3 x 8"],["2026-10-26","Strength A","A","Romanian Deadlift","2–3 x 8"],["2026-10-26","Strength A","A","Step-Up","2–3 x 8/leg"],["2026-10-26","Strength A","A","Dead Bug","2–3 x 8/side"],["2026-10-26","Strength A","A","Pallof Press","2–3 x 10/side"],["2026-10-27","Easy Cardio + Mobility","C","Easy Cardio","Controlled Beep Test checkpoint"],["2026-10-27","Easy Cardio + Mobility","C","Hip Flexor Stretch","45–60 sec/side"],["2026-10-27","Easy Cardio + Mobility","C","Wall Slide","10 reps"],["2026-10-27","Easy Cardio + Mobility","C","Dead Bug","8/side"],["2026-10-28","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-10-28","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-10-28","Rest + Corrective","R","Clamshell","12/side"],["2026-10-28","Rest + Corrective","R","Dead Bug","8/side"],["2026-10-28","Rest + Corrective","R","Wall Slide","10 reps"],["2026-10-28","Rest + Corrective","R","Band External Rotation","12/side"],["2026-10-28","Rest + Corrective","R","Pallof Press","10/side"],["2026-10-29","Strength B + Corrective","B","Seated/Cable Row","3 x 10"],["2026-10-29","Strength B + Corrective","B","Lat Pulldown","2–3 x 10"],["2026-10-29","Strength B + Corrective","B","Push-Up","2–3 x 8–12"],["2026-10-29","Strength B + Corrective","B","Face Pull","2 x 12"],["2026-10-29","Strength B + Corrective","B","Band External Rotation","2 x 12/side"],["2026-10-29","Strength B + Corrective","B","Farmer Carry","3 x 20–30 m"],["2026-10-29","Strength B + Corrective","B","Plank","2–3 x 20–40 sec"],["2026-10-29","Strength B + Corrective","B","Hip Flexor Stretch","45–60 sec/side"],["2026-10-29","Strength B + Corrective","B","Wall Slide","10 reps"],["2026-10-30","Shuttle / Intervals","C","Warm-up walk/jog","5–8 min"],["2026-10-30","Shuttle / Intervals","C","Shuttle / Intervals","6 x 1-min intervals; 30 min easy cardio"],["2026-10-30","Shuttle / Intervals","C","Cool-down","5 min"],["2026-10-31","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-10-31","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-10-31","Rest + Corrective","R","Clamshell","12/side"],["2026-10-31","Rest + Corrective","R","Dead Bug","8/side"],["2026-10-31","Rest + Corrective","R","Wall Slide","10 reps"],["2026-10-31","Rest + Corrective","R","Band External Rotation","12/side"],["2026-10-31","Rest + Corrective","R","Pallof Press","10/side"],["2026-11-01","Recovery / Optional Mobility","R","Easy Walk / Mobility","10–20 min"],["2026-11-01","Recovery / Optional Mobility","R","Hip Flexor Stretch","45 sec/side"],["2026-11-01","Recovery / Optional Mobility","R","Wall Slide","10 reps"],["2026-11-02","Strength A","A","Glute Bridge","3 x 12"],["2026-11-02","Strength A","A","Goblet Squat","2–3 x 8"],["2026-11-02","Strength A","A","Romanian Deadlift","2–3 x 8"],["2026-11-02","Strength A","A","Step-Up","2–3 x 8/leg"],["2026-11-02","Strength A","A","Dead Bug","2–3 x 8/side"],["2026-11-02","Strength A","A","Pallof Press","2–3 x 10/side"],["2026-11-03","Easy Cardio + Mobility","C","Easy Cardio","6 x 1-min intervals"],["2026-11-03","Easy Cardio + Mobility","C","Hip Flexor Stretch","45–60 sec/side"],["2026-11-03","Easy Cardio + Mobility","C","Wall Slide","10 reps"],["2026-11-03","Easy Cardio + Mobility","C","Dead Bug","8/side"],["2026-11-04","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-11-04","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-11-04","Rest + Corrective","R","Clamshell","12/side"],["2026-11-04","Rest + Corrective","R","Dead Bug","8/side"],["2026-11-04","Rest + Corrective","R","Wall Slide","10 reps"],["2026-11-04","Rest + Corrective","R","Band External Rotation","12/side"],["2026-11-04","Rest + Corrective","R","Pallof Press","10/side"],["2026-11-05","Strength B + Corrective","B","Seated/Cable Row","3 x 10"],["2026-11-05","Strength B + Corrective","B","Lat Pulldown","2–3 x 10"],["2026-11-05","Strength B + Corrective","B","Push-Up","2–3 x 8–12"],["2026-11-05","Strength B + Corrective","B","Face Pull","2 x 12"],["2026-11-05","Strength B + Corrective","B","Band External Rotation","2 x 12/side"],["2026-11-05","Strength B + Corrective","B","Farmer Carry","3 x 20–30 m"],["2026-11-05","Strength B + Corrective","B","Plank","2–3 x 20–40 sec"],["2026-11-05","Strength B + Corrective","B","Hip Flexor Stretch","45–60 sec/side"],["2026-11-05","Strength B + Corrective","B","Wall Slide","10 reps"],["2026-11-06","Shuttle / Intervals","C","Warm-up walk/jog","5–8 min"],["2026-11-06","Shuttle / Intervals","C","Shuttle / Intervals","7 x 1-min intervals; 30–35 min easy cardio"],["2026-11-06","Shuttle / Intervals","C","Cool-down","5 min"],["2026-11-07","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-11-07","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-11-07","Rest + Corrective","R","Clamshell","12/side"],["2026-11-07","Rest + Corrective","R","Dead Bug","8/side"],["2026-11-07","Rest + Corrective","R","Wall Slide","10 reps"],["2026-11-07","Rest + Corrective","R","Band External Rotation","12/side"],["2026-11-07","Rest + Corrective","R","Pallof Press","10/side"],["2026-11-08","Recovery / Optional Mobility","R","Easy Walk / Mobility","10–20 min"],["2026-11-08","Recovery / Optional Mobility","R","Hip Flexor Stretch","45 sec/side"],["2026-11-08","Recovery / Optional Mobility","R","Wall Slide","10 reps"],["2026-11-09","Strength A","A","Glute Bridge","3 x 12"],["2026-11-09","Strength A","A","Goblet Squat","2–3 x 8"],["2026-11-09","Strength A","A","Romanian Deadlift","2–3 x 8"],["2026-11-09","Strength A","A","Step-Up","2–3 x 8/leg"],["2026-11-09","Strength A","A","Dead Bug","2–3 x 8/side"],["2026-11-09","Strength A","A","Pallof Press","2–3 x 10/side"],["2026-11-10","Easy Cardio + Mobility","C","Easy Cardio","7 x 1-min intervals"],["2026-11-10","Easy Cardio + Mobility","C","Hip Flexor Stretch","45–60 sec/side"],["2026-11-10","Easy Cardio + Mobility","C","Wall Slide","10 reps"],["2026-11-10","Easy Cardio + Mobility","C","Dead Bug","8/side"],["2026-11-11","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-11-11","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-11-11","Rest + Corrective","R","Clamshell","12/side"],["2026-11-11","Rest + Corrective","R","Dead Bug","8/side"],["2026-11-11","Rest + Corrective","R","Wall Slide","10 reps"],["2026-11-11","Rest + Corrective","R","Band External Rotation","12/side"],["2026-11-11","Rest + Corrective","R","Pallof Press","10/side"],["2026-11-12","Strength B + Corrective","B","Seated/Cable Row","3 x 10"],["2026-11-12","Strength B + Corrective","B","Lat Pulldown","2–3 x 10"],["2026-11-12","Strength B + Corrective","B","Push-Up","2–3 x 8–12"],["2026-11-12","Strength B + Corrective","B","Face Pull","2 x 12"],["2026-11-12","Strength B + Corrective","B","Band External Rotation","2 x 12/side"],["2026-11-12","Strength B + Corrective","B","Farmer Carry","3 x 20–30 m"],["2026-11-12","Strength B + Corrective","B","Plank","2–3 x 20–40 sec"],["2026-11-12","Strength B + Corrective","B","Hip Flexor Stretch","45–60 sec/side"],["2026-11-12","Strength B + Corrective","B","Wall Slide","10 reps"],["2026-11-13","Shuttle / Intervals","C","Warm-up walk/jog","5–8 min"],["2026-11-13","Shuttle / Intervals","C","Shuttle / Intervals","5 x 90-sec intervals + controlled turns"],["2026-11-13","Shuttle / Intervals","C","Cool-down","5 min"],["2026-11-14","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-11-14","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-11-14","Rest + Corrective","R","Clamshell","12/side"],["2026-11-14","Rest + Corrective","R","Dead Bug","8/side"],["2026-11-14","Rest + Corrective","R","Wall Slide","10 reps"],["2026-11-14","Rest + Corrective","R","Band External Rotation","12/side"],["2026-11-14","Rest + Corrective","R","Pallof Press","10/side"],["2026-11-15","Recovery / Optional Mobility","R","Easy Walk / Mobility","10–20 min"],["2026-11-15","Recovery / Optional Mobility","R","Hip Flexor Stretch","45 sec/side"],["2026-11-15","Recovery / Optional Mobility","R","Wall Slide","10 reps"],["2026-11-16","Strength A","A","Glute Bridge","3 x 12"],["2026-11-16","Strength A","A","Goblet Squat","2–3 x 8"],["2026-11-16","Strength A","A","Romanian Deadlift","2–3 x 8"],["2026-11-16","Strength A","A","Step-Up","2–3 x 8/leg"],["2026-11-16","Strength A","A","Dead Bug","2–3 x 8/side"],["2026-11-16","Strength A","A","Pallof Press","2–3 x 10/side"],["2026-11-17","Easy Cardio + Mobility","C","Easy Cardio","5 x 90-sec intervals + controlled turns"],["2026-11-17","Easy Cardio + Mobility","C","Hip Flexor Stretch","45–60 sec/side"],["2026-11-17","Easy Cardio + Mobility","C","Wall Slide","10 reps"],["2026-11-17","Easy Cardio + Mobility","C","Dead Bug","8/side"],["2026-11-18","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-11-18","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-11-18","Rest + Corrective","R","Clamshell","12/side"],["2026-11-18","Rest + Corrective","R","Dead Bug","8/side"],["2026-11-18","Rest + Corrective","R","Wall Slide","10 reps"],["2026-11-18","Rest + Corrective","R","Band External Rotation","12/side"],["2026-11-18","Rest + Corrective","R","Pallof Press","10/side"],["2026-11-19","Strength B + Corrective","B","Seated/Cable Row","3 x 10"],["2026-11-19","Strength B + Corrective","B","Lat Pulldown","2–3 x 10"],["2026-11-19","Strength B + Corrective","B","Push-Up","2–3 x 8–12"],["2026-11-19","Strength B + Corrective","B","Face Pull","2 x 12"],["2026-11-19","Strength B + Corrective","B","Band External Rotation","2 x 12/side"],["2026-11-19","Strength B + Corrective","B","Farmer Carry","3 x 20–30 m"],["2026-11-19","Strength B + Corrective","B","Plank","2–3 x 20–40 sec"],["2026-11-19","Strength B + Corrective","B","Hip Flexor Stretch","45–60 sec/side"],["2026-11-19","Strength B + Corrective","B","Wall Slide","10 reps"],["2026-11-20","Shuttle / Intervals","C","Warm-up walk/jog","5–8 min"],["2026-11-20","Shuttle / Intervals","C","Shuttle / Intervals","Beep Test checkpoint; reduce surrounding volume"],["2026-11-20","Shuttle / Intervals","C","Cool-down","5 min"],["2026-11-21","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-11-21","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-11-21","Rest + Corrective","R","Clamshell","12/side"],["2026-11-21","Rest + Corrective","R","Dead Bug","8/side"],["2026-11-21","Rest + Corrective","R","Wall Slide","10 reps"],["2026-11-21","Rest + Corrective","R","Band External Rotation","12/side"],["2026-11-21","Rest + Corrective","R","Pallof Press","10/side"],["2026-11-22","Recovery / Optional Mobility","R","Easy Walk / Mobility","10–20 min"],["2026-11-22","Recovery / Optional Mobility","R","Hip Flexor Stretch","45 sec/side"],["2026-11-22","Recovery / Optional Mobility","R","Wall Slide","10 reps"],["2026-11-23","Strength A","A","Glute Bridge","3 x 12"],["2026-11-23","Strength A","A","Goblet Squat","2–3 x 8"],["2026-11-23","Strength A","A","Romanian Deadlift","2–3 x 8"],["2026-11-23","Strength A","A","Step-Up","2–3 x 8/leg"],["2026-11-23","Strength A","A","Dead Bug","2–3 x 8/side"],["2026-11-23","Strength A","A","Pallof Press","2–3 x 10/side"],["2026-11-24","Easy Cardio + Mobility","C","Easy Cardio","Beep Test checkpoint"],["2026-11-24","Easy Cardio + Mobility","C","Hip Flexor Stretch","45–60 sec/side"],["2026-11-24","Easy Cardio + Mobility","C","Wall Slide","10 reps"],["2026-11-24","Easy Cardio + Mobility","C","Dead Bug","8/side"],["2026-11-25","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-11-25","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-11-25","Rest + Corrective","R","Clamshell","12/side"],["2026-11-25","Rest + Corrective","R","Dead Bug","8/side"],["2026-11-25","Rest + Corrective","R","Wall Slide","10 reps"],["2026-11-25","Rest + Corrective","R","Band External Rotation","12/side"],["2026-11-25","Rest + Corrective","R","Pallof Press","10/side"],["2026-11-26","Strength B + Corrective","B","Seated/Cable Row","3 x 10"],["2026-11-26","Strength B + Corrective","B","Lat Pulldown","2–3 x 10"],["2026-11-26","Strength B + Corrective","B","Push-Up","2–3 x 8–12"],["2026-11-26","Strength B + Corrective","B","Face Pull","2 x 12"],["2026-11-26","Strength B + Corrective","B","Band External Rotation","2 x 12/side"],["2026-11-26","Strength B + Corrective","B","Farmer Carry","3 x 20–30 m"],["2026-11-26","Strength B + Corrective","B","Plank","2–3 x 20–40 sec"],["2026-11-26","Strength B + Corrective","B","Hip Flexor Stretch","45–60 sec/side"],["2026-11-26","Strength B + Corrective","B","Wall Slide","10 reps"],["2026-11-27","Shuttle / Intervals","C","Warm-up walk/jog","5–8 min"],["2026-11-27","Shuttle / Intervals","C","Shuttle / Intervals","6–8 shuttle rounds + change of direction"],["2026-11-27","Shuttle / Intervals","C","Cool-down","5 min"],["2026-11-28","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-11-28","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-11-28","Rest + Corrective","R","Clamshell","12/side"],["2026-11-28","Rest + Corrective","R","Dead Bug","8/side"],["2026-11-28","Rest + Corrective","R","Wall Slide","10 reps"],["2026-11-28","Rest + Corrective","R","Band External Rotation","12/side"],["2026-11-28","Rest + Corrective","R","Pallof Press","10/side"],["2026-11-29","Recovery / Optional Mobility","R","Easy Walk / Mobility","10–20 min"],["2026-11-29","Recovery / Optional Mobility","R","Hip Flexor Stretch","45 sec/side"],["2026-11-29","Recovery / Optional Mobility","R","Wall Slide","10 reps"],["2026-11-30","Strength A","A","Glute Bridge","3 x 12"],["2026-11-30","Strength A","A","Goblet Squat","2–3 x 8"],["2026-11-30","Strength A","A","Romanian Deadlift","2–3 x 8"],["2026-11-30","Strength A","A","Step-Up","2–3 x 8/leg"],["2026-11-30","Strength A","A","Dead Bug","2–3 x 8/side"],["2026-11-30","Strength A","A","Pallof Press","2–3 x 10/side"],["2026-12-01","Easy Cardio + Mobility","C","Easy Cardio","6–8 shuttle rounds + change of direction"],["2026-12-01","Easy Cardio + Mobility","C","Hip Flexor Stretch","45–60 sec/side"],["2026-12-01","Easy Cardio + Mobility","C","Wall Slide","10 reps"],["2026-12-01","Easy Cardio + Mobility","C","Dead Bug","8/side"],["2026-12-02","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-12-02","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-12-02","Rest + Corrective","R","Clamshell","12/side"],["2026-12-02","Rest + Corrective","R","Dead Bug","8/side"],["2026-12-02","Rest + Corrective","R","Wall Slide","10 reps"],["2026-12-02","Rest + Corrective","R","Band External Rotation","12/side"],["2026-12-02","Rest + Corrective","R","Pallof Press","10/side"],["2026-12-03","Strength B + Corrective","B","Seated/Cable Row","3 x 10"],["2026-12-03","Strength B + Corrective","B","Lat Pulldown","2–3 x 10"],["2026-12-03","Strength B + Corrective","B","Push-Up","2–3 x 8–12"],["2026-12-03","Strength B + Corrective","B","Face Pull","2 x 12"],["2026-12-03","Strength B + Corrective","B","Band External Rotation","2 x 12/side"],["2026-12-03","Strength B + Corrective","B","Farmer Carry","3 x 20–30 m"],["2026-12-03","Strength B + Corrective","B","Plank","2–3 x 20–40 sec"],["2026-12-03","Strength B + Corrective","B","Hip Flexor Stretch","45–60 sec/side"],["2026-12-03","Strength B + Corrective","B","Wall Slide","10 reps"],["2026-12-04","Shuttle / Intervals","C","Warm-up walk/jog","5–8 min"],["2026-12-04","Shuttle / Intervals","C","Shuttle / Intervals","Shuttle + controlled lateral movement"],["2026-12-04","Shuttle / Intervals","C","Cool-down","5 min"],["2026-12-05","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-12-05","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-12-05","Rest + Corrective","R","Clamshell","12/side"],["2026-12-05","Rest + Corrective","R","Dead Bug","8/side"],["2026-12-05","Rest + Corrective","R","Wall Slide","10 reps"],["2026-12-05","Rest + Corrective","R","Band External Rotation","12/side"],["2026-12-05","Rest + Corrective","R","Pallof Press","10/side"],["2026-12-06","Recovery / Optional Mobility","R","Easy Walk / Mobility","10–20 min"],["2026-12-06","Recovery / Optional Mobility","R","Hip Flexor Stretch","45 sec/side"],["2026-12-06","Recovery / Optional Mobility","R","Wall Slide","10 reps"],["2026-12-07","Strength A","A","Glute Bridge","3 x 12"],["2026-12-07","Strength A","A","Goblet Squat","2–3 x 8"],["2026-12-07","Strength A","A","Romanian Deadlift","2–3 x 8"],["2026-12-07","Strength A","A","Step-Up","2–3 x 8/leg"],["2026-12-07","Strength A","A","Dead Bug","2–3 x 8/side"],["2026-12-07","Strength A","A","Pallof Press","2–3 x 10/side"],["2026-12-08","Easy Cardio + Mobility","C","Easy Cardio","Shuttle + controlled lateral movement"],["2026-12-08","Easy Cardio + Mobility","C","Hip Flexor Stretch","45–60 sec/side"],["2026-12-08","Easy Cardio + Mobility","C","Wall Slide","10 reps"],["2026-12-08","Easy Cardio + Mobility","C","Dead Bug","8/side"],["2026-12-09","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-12-09","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-12-09","Rest + Corrective","R","Clamshell","12/side"],["2026-12-09","Rest + Corrective","R","Dead Bug","8/side"],["2026-12-09","Rest + Corrective","R","Wall Slide","10 reps"],["2026-12-09","Rest + Corrective","R","Band External Rotation","12/side"],["2026-12-09","Rest + Corrective","R","Pallof Press","10/side"],["2026-12-10","Strength B + Corrective","B","Seated/Cable Row","3 x 10"],["2026-12-10","Strength B + Corrective","B","Lat Pulldown","2–3 x 10"],["2026-12-10","Strength B + Corrective","B","Push-Up","2–3 x 8–12"],["2026-12-10","Strength B + Corrective","B","Face Pull","2 x 12"],["2026-12-10","Strength B + Corrective","B","Band External Rotation","2 x 12/side"],["2026-12-10","Strength B + Corrective","B","Farmer Carry","3 x 20–30 m"],["2026-12-10","Strength B + Corrective","B","Plank","2–3 x 20–40 sec"],["2026-12-10","Strength B + Corrective","B","Hip Flexor Stretch","45–60 sec/side"],["2026-12-10","Strength B + Corrective","B","Wall Slide","10 reps"],["2026-12-11","Shuttle / Intervals","C","Warm-up walk/jog","5–8 min"],["2026-12-11","Shuttle / Intervals","C","Shuttle / Intervals","Full Beep Test practice + 3-round circuit"],["2026-12-11","Shuttle / Intervals","C","Cool-down","5 min"],["2026-12-12","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-12-12","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-12-12","Rest + Corrective","R","Clamshell","12/side"],["2026-12-12","Rest + Corrective","R","Dead Bug","8/side"],["2026-12-12","Rest + Corrective","R","Wall Slide","10 reps"],["2026-12-12","Rest + Corrective","R","Band External Rotation","12/side"],["2026-12-12","Rest + Corrective","R","Pallof Press","10/side"],["2026-12-13","Recovery / Optional Mobility","R","Easy Walk / Mobility","10–20 min"],["2026-12-13","Recovery / Optional Mobility","R","Hip Flexor Stretch","45 sec/side"],["2026-12-13","Recovery / Optional Mobility","R","Wall Slide","10 reps"],["2026-12-14","Strength A","A","Glute Bridge","3 x 12"],["2026-12-14","Strength A","A","Goblet Squat","2–3 x 8"],["2026-12-14","Strength A","A","Romanian Deadlift","2–3 x 8"],["2026-12-14","Strength A","A","Step-Up","2–3 x 8/leg"],["2026-12-14","Strength A","A","Dead Bug","2–3 x 8/side"],["2026-12-14","Strength A","A","Pallof Press","2–3 x 10/side"],["2026-12-15","Easy Cardio + Mobility","C","Easy Cardio","Full Beep Test practice + 3-round circuit"],["2026-12-15","Easy Cardio + Mobility","C","Hip Flexor Stretch","45–60 sec/side"],["2026-12-15","Easy Cardio + Mobility","C","Wall Slide","10 reps"],["2026-12-15","Easy Cardio + Mobility","C","Dead Bug","8/side"],["2026-12-16","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-12-16","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-12-16","Rest + Corrective","R","Clamshell","12/side"],["2026-12-16","Rest + Corrective","R","Dead Bug","8/side"],["2026-12-16","Rest + Corrective","R","Wall Slide","10 reps"],["2026-12-16","Rest + Corrective","R","Band External Rotation","12/side"],["2026-12-16","Rest + Corrective","R","Pallof Press","10/side"],["2026-12-17","Strength B + Corrective","B","Seated/Cable Row","3 x 10"],["2026-12-17","Strength B + Corrective","B","Lat Pulldown","2–3 x 10"],["2026-12-17","Strength B + Corrective","B","Push-Up","2–3 x 8–12"],["2026-12-17","Strength B + Corrective","B","Face Pull","2 x 12"],["2026-12-17","Strength B + Corrective","B","Band External Rotation","2 x 12/side"],["2026-12-17","Strength B + Corrective","B","Farmer Carry","3 x 20–30 m"],["2026-12-17","Strength B + Corrective","B","Plank","2–3 x 20–40 sec"],["2026-12-17","Strength B + Corrective","B","Hip Flexor Stretch","45–60 sec/side"],["2026-12-17","Strength B + Corrective","B","Wall Slide","10 reps"],["2026-12-18","Shuttle / Intervals","C","Warm-up walk/jog","5–8 min"],["2026-12-18","Shuttle / Intervals","C","Shuttle / Intervals","40–50% volume reduction; retain light speed"],["2026-12-18","Shuttle / Intervals","C","Cool-down","5 min"],["2026-12-19","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-12-19","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-12-19","Rest + Corrective","R","Clamshell","12/side"],["2026-12-19","Rest + Corrective","R","Dead Bug","8/side"],["2026-12-19","Rest + Corrective","R","Wall Slide","10 reps"],["2026-12-19","Rest + Corrective","R","Band External Rotation","12/side"],["2026-12-19","Rest + Corrective","R","Pallof Press","10/side"],["2026-12-20","Recovery / Optional Mobility","R","Easy Walk / Mobility","10–20 min"],["2026-12-20","Recovery / Optional Mobility","R","Hip Flexor Stretch","45 sec/side"],["2026-12-20","Recovery / Optional Mobility","R","Wall Slide","10 reps"],["2026-12-21","Strength A","A","Glute Bridge","3 x 12"],["2026-12-21","Strength A","A","Goblet Squat","2–3 x 8"],["2026-12-21","Strength A","A","Romanian Deadlift","2–3 x 8"],["2026-12-21","Strength A","A","Step-Up","2–3 x 8/leg"],["2026-12-21","Strength A","A","Dead Bug","2–3 x 8/side"],["2026-12-21","Strength A","A","Pallof Press","2–3 x 10/side"],["2026-12-22","Easy Cardio + Mobility","C","Easy Cardio","40–50% volume reduction"],["2026-12-22","Easy Cardio + Mobility","C","Hip Flexor Stretch","45–60 sec/side"],["2026-12-22","Easy Cardio + Mobility","C","Wall Slide","10 reps"],["2026-12-22","Easy Cardio + Mobility","C","Dead Bug","8/side"],["2026-12-23","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-12-23","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-12-23","Rest + Corrective","R","Clamshell","12/side"],["2026-12-23","Rest + Corrective","R","Dead Bug","8/side"],["2026-12-23","Rest + Corrective","R","Wall Slide","10 reps"],["2026-12-23","Rest + Corrective","R","Band External Rotation","12/side"],["2026-12-23","Rest + Corrective","R","Pallof Press","10/side"],["2026-12-24","Strength B + Corrective","B","Seated/Cable Row","3 x 10"],["2026-12-24","Strength B + Corrective","B","Lat Pulldown","2–3 x 10"],["2026-12-24","Strength B + Corrective","B","Push-Up","2–3 x 8–12"],["2026-12-24","Strength B + Corrective","B","Face Pull","2 x 12"],["2026-12-24","Strength B + Corrective","B","Band External Rotation","2 x 12/side"],["2026-12-24","Strength B + Corrective","B","Farmer Carry","3 x 20–30 m"],["2026-12-24","Strength B + Corrective","B","Plank","2–3 x 20–40 sec"],["2026-12-24","Strength B + Corrective","B","Hip Flexor Stretch","45–60 sec/side"],["2026-12-24","Strength B + Corrective","B","Wall Slide","10 reps"],["2026-12-25","Shuttle / Intervals","C","Warm-up walk/jog","5–8 min"],["2026-12-25","Shuttle / Intervals","C","Shuttle / Intervals","Easy cardio + final review; no hard test if fatigued"],["2026-12-25","Shuttle / Intervals","C","Cool-down","5 min"],["2026-12-26","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-12-26","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-12-26","Rest + Corrective","R","Clamshell","12/side"],["2026-12-26","Rest + Corrective","R","Dead Bug","8/side"],["2026-12-26","Rest + Corrective","R","Wall Slide","10 reps"],["2026-12-26","Rest + Corrective","R","Band External Rotation","12/side"],["2026-12-26","Rest + Corrective","R","Pallof Press","10/side"],["2026-12-27","Recovery / Optional Mobility","R","Easy Walk / Mobility","10–20 min"],["2026-12-27","Recovery / Optional Mobility","R","Hip Flexor Stretch","45 sec/side"],["2026-12-27","Recovery / Optional Mobility","R","Wall Slide","10 reps"],["2026-12-28","Strength A","A","Glute Bridge","3 x 12"],["2026-12-28","Strength A","A","Goblet Squat","2–3 x 8"],["2026-12-28","Strength A","A","Romanian Deadlift","2–3 x 8"],["2026-12-28","Strength A","A","Step-Up","2–3 x 8/leg"],["2026-12-28","Strength A","A","Dead Bug","2–3 x 8/side"],["2026-12-28","Strength A","A","Pallof Press","2–3 x 10/side"],["2026-12-29","Easy Cardio + Mobility","C","Easy Cardio","Easy cardio + final review"],["2026-12-29","Easy Cardio + Mobility","C","Hip Flexor Stretch","45–60 sec/side"],["2026-12-29","Easy Cardio + Mobility","C","Wall Slide","10 reps"],["2026-12-29","Easy Cardio + Mobility","C","Dead Bug","8/side"],["2026-12-30","Rest + Corrective","R","Hip Flexor Stretch","45–60 sec/side"],["2026-12-30","Rest + Corrective","R","Glute Bridge","15 reps"],["2026-12-30","Rest + Corrective","R","Clamshell","12/side"],["2026-12-30","Rest + Corrective","R","Dead Bug","8/side"],["2026-12-30","Rest + Corrective","R","Wall Slide","10 reps"],["2026-12-30","Rest + Corrective","R","Band External Rotation","12/side"],["2026-12-30","Rest + Corrective","R","Pallof Press","10/side"],["2026-12-31","Strength B + Corrective","B","Seated/Cable Row","3 x 10"],["2026-12-31","Strength B + Corrective","B","Lat Pulldown","2–3 x 10"],["2026-12-31","Strength B + Corrective","B","Push-Up","2–3 x 8–12"],["2026-12-31","Strength B + Corrective","B","Face Pull","2 x 12"],["2026-12-31","Strength B + Corrective","B","Band External Rotation","2 x 12/side"],["2026-12-31","Strength B + Corrective","B","Farmer Carry","3 x 20–30 m"],["2026-12-31","Strength B + Corrective","B","Plank","2–3 x 20–40 sec"],["2026-12-31","Strength B + Corrective","B","Hip Flexor Stretch","45–60 sec/side"],["2026-12-31","Strength B + Corrective","B","Wall Slide","10 reps"]],"lib":[["Glute Bridge","Corrective / Strength","Glute activation; pelvic control","2–3 x 12","Add reps, then light load","Ribs down; squeeze glutes without over-arching","Pain or cramping that persists"],["Goblet Squat","Strength","Leg strength; functional pattern","2–3 x 8","Add small load only when controlled","Brace; knees track with toes","Painful joint motion"],["Romanian Deadlift","Posterior Chain","Hamstrings/glutes; hip hinge","2–3 x 8","Small load increase with good hinge","Neutral spine; hips back","Back/groin symptoms"],["Step-Up","Single Leg","Bilateral balance; leg strength","2–3 x 8/leg","Add reps/load gradually","Control the lowering phase","Pain or loss of control"],["Seated/Cable Row","Upper Body","Pulling strength; scapular control","3 x 10","Increase reps/load gradually","Pull elbows back without shrugging","Shoulder pinching"],["Lat Pulldown","Upper Body","Vertical pulling strength","2–3 x 10","Small load increase","Keep shoulders controlled","Shoulder pain/pinching"],["Push-Up","Upper Body","Pressing endurance","2–3 x 8–12","Add reps before harder variation","Body straight; controlled descent","Shoulder pain"],["Face Pull","Shoulder","Scapular/rear shoulder control","2 x 12","Increase reps slowly","Move shoulder blades, don't yank","Pinching"],["Band External Rotation","Shoulder","Rotator cuff control","2 x 12/side","Add reps/resistance slowly","Elbow stays near side","Pain"],["Wall Slide","Mobility","Shoulder mobility/control","2 x 10","Improve ROM before adding volume","Slow movement; no forcing","Pinching"],["Dead Bug","Core","Anti-extension core control","2–3 x 8/side","Add reps slowly","Low back controlled; exhale","Back discomfort"],["Pallof Press","Core","Anti-rotation stability","2–3 x 10/side","Increase hold/reps/resistance","Don't rotate toward band","Pain"],["Plank","Core","Trunk endurance","2–3 x 20–40 sec","Add 5–10 sec at a time","Neutral pelvis; ribs down","Back pain"],["Farmer Carry","Functional","Grip/trunk endurance","3 x 20–30 m","Add distance then load","Tall posture; controlled steps","Pain or grip failure"],["Hip Flexor Stretch","Mobility","Hip mobility; APT support","45–60 sec/side","Gradually improve comfort/position","Posterior pelvic tilt; don't force","Sharp pain"],["Clamshell","Corrective","Glute medius activation","2–3 x 12/side","Add reps/resistance gradually","Keep pelvis stacked","Hip pain"],["Easy Cardio","Aerobic","Aerobic base","20–30 min","Add 5 min gradually","Conversational pace","Pain, dizziness, unusual symptoms"],["20 m Shuttle","Test Specific","Change of direction + aerobic demand","Controlled reps per weekly plan","Increase volume/intensity gradually","Brake under control; efficient turn","Pain or loss of mechanics"]]};
+
+const TABS=['Dashboard','Today','Weekly Targets','Morning 5-Min','Daily Plan','Exercise Log','Exercise Library'];
+let tab='Today',S={days:{},log:{},mo:{}},LS='nisarg_winter_arc_2026',docRef=null,logDate=null,openWk=null,t0=null;
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const first=D.dp[0][0],last=D.dp[D.dp.length-1][0];
+let today=iso(new Date());if(today<first)today=first;if(today>last)today=last;
+logDate=today;
+
+try{Object.assign(S,JSON.parse(localStorage.getItem(LS)||'{}'))}catch(e){}
+S.days=S.days||{};S.log=S.log||{};S.mo=S.mo||{};
+
+function save(){
+  try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}
+  clearTimeout(t0);
+  t0=setTimeout(async()=>{
+    if(docRef){
+      try{await docRef.set({json:JSON.stringify(S)});$('#sync').textContent='Saved · Synced'}catch(e){}
+    }
+  },800);
+}
+
+function dd(d){return S.days[d]||(S.days[d]={})}
+
+function stats(){
+  const ds=D.dp,n=ds.length;let done=0,r=[],p=[];
+  ds.forEach(x=>{
+    const v=S.days[x[0]]||{};
+    if(v.done==='Yes')done++;
+    if(v.rpe>0)r.push(+v.rpe);
+    if(v.pain!==''&&v.pain!=null&&!isNaN(v.pain))p.push(+v.pain)
+  });
+  const av=a=>a.length?(a.reduce((x,y)=>x+y,0)/a.length).toFixed(1):'–';
+  return{n,done,pct:n?Math.round(done/n*100):0,rpe:av(r),pain:av(p)}
+}
+
+function render(){
+  $('#t').textContent='Nisarg — Winter Arc 2026';
+  $('#nav').innerHTML=TABS.map(t=>`<button class="${t===tab?'on':''}" data-t="${t}">${t}</button>`).join('');
+  $('#m').innerHTML=({Dashboard:vDash,Today:vToday,'Weekly Targets':vWT,'Morning 5-Min':vMo,'Daily Plan':vDP,'Exercise Log':vLog,'Exercise Library':vLib})[tab]();
+}
+
+function vDash(){
+  const s=stats(),info=D.dash.slice(0,12);
+  return `<div class="grid">
+    <div class="card stat"><b>${s.done}/${s.n}</b><span>Completed Days</span></div>
+    <div class="card stat"><b>${s.pct}%</b><span>Completion Rate</span></div>
+    <div class="card stat"><b>${s.rpe}</b><span>Avg RPE</span></div>
+    <div class="card stat"><b>${s.pain}</b><span>Avg Pain</span></div>
+  </div>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <span class="mu">Target Completion: &ge;85%</span>
+      <b>${s.pct}%</b>
+    </div>
+    <div class="bar"><i style="width:${s.pct}%"></i></div>
+  </div>
+  <div class="card tw">
+    <table>${info.map(r=>`<tr><th>${esc(r[0])}</th><td>${esc(r[1])}</td></tr>`).join('')}</table>
+  </div>
+  <div class="card warn">
+    <b>Tracking Safety Note</b>
+    <p class="mu" style="margin:4px 0 0">RPE &amp; pain scores monitor recovery. Never push through joint or injury pain.</p>
+  </div>
+  <h2>Weekly Progress</h2>
+  ${weeks().map(w=>`<div class="card">
+    <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+      <b>Week ${w.n}</b>
+      <span class="mu">${w.done}/${w.t} Days</span>
+    </div>
+    <div class="bar"><i style="width:${w.t?w.done/w.t*100:0}%"></i></div>
+  </div>`).join('')}`;
+}
+
+function weeks(){
+  const m={};
+  D.dp.forEach(x=>{
+    (m[x[1]]=m[x[1]]||{n:x[1],t:0,done:0,days:[]});
+    m[x[1]].t++;
+    m[x[1]].days.push(x);
+    if((S.days[x[0]]||{}).done==='Yes')m[x[1]].done++;
+  });
+  return Object.values(m);
+}
+
+function dayCard(x,open){
+  const v=dd(x[0]),d=x[0];
+  return `<details ${open?'open':''} class="card ${d===today?'cur':''}">
+    <summary>
+      <div>
+        <b>${fmt(d)}</b>
+        <span class="tag ${x[4]}" style="margin-left:6px">${x[4]}</span>
+      </div>
+      <span class="tag" style="${v.done==='Yes'?'background:var(--ok-bg);color:var(--ok)':v.done==='No'?'background:#fee2e2;color:var(--bad)':'background:var(--bd);color:var(--mu)'}">
+        ${v.done==='Yes'?'Done':v.done==='No'?'Missed':'Planned'}
+      </span>
+    </summary>
+    <div class="row">
+      <label>Status
+        <select data-d="${d}" data-f="done">
+          <option value="">Planned</option>
+          <option${v.done==='Yes'?' selected':''}>Yes</option>
+          <option${v.done==='No'?' selected':''}>No</option>
+        </select>
+      </label>
+      <label>RPE (1–10)
+        <input type="number" min="1" max="10" data-d="${d}" data-f="rpe" value="${v.rpe??''}">
+      </label>
+      <label>Pain (0–10)
+        <input type="number" min="0" max="10" data-d="${d}" data-f="pain" value="${v.pain??''}">
+      </label>
+      <label>Sleep (hrs)
+        <input type="number" step="0.5" min="0" max="14" data-d="${d}" data-f="sleep" value="${v.sleep??''}">
+      </label>
+    </div>
+    <div class="row" style="grid-template-columns:1fr;">
+      <label>Notes
+        <textarea rows="2" data-d="${d}" data-f="notes">${esc(v.notes)}</textarea>
+      </label>
+      <label>Adjustments
+        <textarea rows="2" data-d="${d}" data-f="adj">${esc(v.adj)}</textarea>
+      </label>
+    </div>
+    <p class="mu" style="margin-top:10px;">Phase: ${esc(x[3])} · Week ${x[1]} · <a href="#" data-go="${d}">Open Exercise Log &rarr;</a></p>
+  </details>`;
+}
+
+function fmt(d){ return new Date(d+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}); }
+
+function vToday(){
+  const x=D.dp.find(r=>r[0]===today);
+  return dayCard(x,true)+moCard(today)+'<h2>Planned Session Exercises</h2>'+logTable(today);
+}
+
+function moCard(d){
+  const a=S.mo[d]||[];
+  return `<div class="card">
+    <b>Morning 5-Min Routine</b>
+    <div style="margin-top:6px;">
+      ${D.mo.map((r,i)=>`<label class="chk">
+        <input type="checkbox" data-m="${d}" data-i="${i}" ${a[i]?'checked':''}>
+        <span><b>${esc(r[1])}</b> —${esc(r[2])}</span>
+      </label>`).join('')}
+    </div>
+  </div>`;
+}
+
+function vWT(){
+  return `<div class="card tw">
+    <table>
+      <tr><th>Week</th><th>Dates</th><th>Phase</th><th>Focus</th><th>Cardio/Shuttle</th><th>Strength</th></tr>
+      ${D.wt.map(r=>`<tr><td><b>${esc(r[0])}</b></td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[4])}</td><td>${esc(r[5])}</td><td>${esc(r[6])}</td></tr>`).join('')}
+    </table>
+  </div>`;
+}
+
+function vMo(){
+  return moCard(today)+`<div class="card tw">
+    <table>
+      <tr><th>#</th><th>Exercise</th><th>Target</th><th>Purpose</th><th>Cue</th></tr>
+      ${D.mo.map(r=>`<tr><td>${r[0]}</td><td><b>${esc(r[1])}</b></td><td>${esc(r[2])}</td><td>${esc(r[3])}</td><td>${esc(r[4])}</td></tr>`).join('')}
+    </table>
+  </div>`;
+}
+
+function vDP(){
+  const cw=D.dp.find(r=>r[0]===today)[1];
+  if(openWk==null)openWk=cw;
+  return weeks().map(w=>`<details class="card" data-w="${w.n}" ${w.n==openWk?'open':''}>
+    <summary>
+      <b>Week ${w.n}</b>
+      <span class="mu">${w.done}/${w.t} completed</span>
+    </summary>
+    <div style="margin-top:12px;">${w.days.map(x=>dayCard(x,false)).join('')}</div>
+  </details>`).join('');
+}
+
+function logTable(d){
+  const rs=D.lg.map((r,i)=>[r,i]).filter(([r])=>r[0]===d);
+  if(!rs.length)return '<p class="mu">No exercises logged for today.</p>';
+  return `<div class="card tw">
+    <table>
+      <tr><th>Exercise</th><th>Target</th><th>Actual</th><th>Done</th><th>RPE</th><th>Pain</th><th>Notes</th></tr>
+      ${rs.map(([r,i])=>{
+        const v=S.log[i]||{};
+        const inp=(f,w)=>`<input style="width:${w}px" data-l="${i}" data-f="${f}" value="${esc(v[f])}">`;
+        return `<tr>
+          <td><b>${esc(r[3])}</b></td>
+          <td>${esc(r[4])}</td>
+          <td>${inp('actual',80)}</td>
+          <td>
+            <select data-l="${i}" data-f="done" style="width:70px">
+              <option value=""></option>
+              <option${v.done==='Yes'?' selected':''}>Yes</option>
+              <option${v.done==='No'?' selected':''}>No</option>
+            </select>
+          </td>
+          <td>${inp('rpe',48)}</td>
+          <td>${inp('pain',48)}</td>
+          <td>${inp('notes',110)}</td>
+        </tr>`;
+      }).join('')}
+    </table>
+  </div>`;
+}
+
+function vLog(){
+  const dates=D.dp.map(x=>x[0]),x=D.dp.find(r=>r[0]===logDate);
+  return `<div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+    <label class="mu" style="flex:1;">Select Date:
+      <select id="ld" style="margin-top:4px;">${dates.map(d=>`<option value="${d}"${d===logDate?' selected':''}>${fmt(d)}</option>`).join('')}</select>
+    </label>
+    <span class="tag ${x[4]}">${x[4]}</span>
+  </div>`+logTable(logDate);
+}
+
+function vLib(){
+  return `<div class="card tw">
+    <table>
+      <tr><th>Exercise</th><th>Category</th><th>Target</th><th>Progression</th><th>Cue</th><th>Stop If</th></tr>
+      ${D.lib.map(r=>`<tr><td><b>${esc(r[0])}</b></td><td>${esc(r[1])}</td><td>${esc(r[3])}</td><td>${esc(r[4])}</td><td>${esc(r[5])}</td><td>${esc(r[6])}</td></tr>`).join('')}
+    </table>
+  </div>`;
+}
+
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-t]');
+  if(b){tab=b.dataset.t;render();window.scrollTo(0,0);}
+  const g=e.target.closest('[data-go]');
+  if(g){e.preventDefault();logDate=g.dataset.go;tab='Exercise Log';render();}
+});
+
+document.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.id==='ld'){logDate=t.value;render();return;}
+  if(t.dataset.d){dd(t.dataset.d)[t.dataset.f]=t.value;save();if(t.dataset.f==='done')render();}
+  else if(t.dataset.l){(S.log[t.dataset.l]=S.log[t.dataset.l]||{})[t.dataset.f]=t.value;save();}
+  else if(t.dataset.m){const a=S.mo[t.dataset.m]=S.mo[t.dataset.m]||[];a[t.dataset.i]=t.checked;save();}
+});
+
+document.addEventListener('toggle',e=>{
+  const w=e.target.dataset&&e.target.dataset.w;
+  if(w&&e.target.open)openWk=+w;
+},true);
+
+render();
+$('#sync').textContent='Saved locally';
+</script>
+</body>
+</html>
